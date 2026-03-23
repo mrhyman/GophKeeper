@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: docker-hosted.artifactory.tcsbank.ru/fd-core/finedog-postgresql:latest
+    container_name: gophkeeper-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: gophkeeper
+      POSTGRES_USER: gophkeeper
+      POSTGRES_PASSWORD: gophkeeper_secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gophkeeper -d gophkeeper"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: ${VERSION:-dev}
+        BUILD_DATE: ${BUILD_DATE:-unknown}
+    container_name: gophkeeper-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      GOPHKEEPER_SERVER_ADDRESS: ":8080"
+      GOPHKEEPER_DATABASE_DSN: "postgres://gophkeeper:gophkeeper_secret@postgres:5432/gophkeeper?sslmode=disable"
+      GOPHKEEPER_SERVER_TLS_CERT: "/app/certs/server.crt"
+      GOPHKEEPER_SERVER_TLS_KEY: "/app/certs/server.key"
+      GOPHKEEPER_JWT_SECRET: "${JWT_SECRET:-super-secret-change-me}"
+      GOPHKEEPER_JWT_ACCESS_TTL: "15m"
+      GOPHKEEPER_JWT_REFRESH_TTL: "720h"
+      GOPHKEEPER_LOG_LEVEL: "info"
+      DATABASE_DSN: "postgres://gophkeeper:gophkeeper_secret@postgres:5432/gophkeeper?sslmode=disable"
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  swagger-ui:
+    image: docker-proxy.artifactory.tcsbank.ru/swaggerapi/swagger-ui
+    container_name: gophkeeper-swagger
+    ports:
+      - "8081:8080"
+    environment:
+      SWAGGER_JSON: /docs/swagger.json
+    volumes:
+      - ./docs:/docs:ro
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:
