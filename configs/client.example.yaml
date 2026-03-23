@@ -1,0 +1,10 @@
+server:
+  address: "https://localhost:8080"
+  ca_file: ""
+
+storage:
+  path: "~/.gophkeeper/vault.db"
+
+sync:
+  auto: true
+  interval: 5m
