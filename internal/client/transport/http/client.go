@@ -10,7 +10,21 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"gophkeeper/pkg/models"
 )
+
+// TokenPair содержит пару токенов.
+type TokenPair struct {
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
+}
+
+// SyncResponse содержит ответ сервера на синхронизацию.
+type SyncResponse struct {
+	ServerSecrets []*models.Secret `json:"secrets"`
+	SyncTimestamp int64            `json:"sync_timestamp"`
+}
 
 // Client — HTTP-клиент для взаимодействия с сервером GophKeeper.
 type Client struct {
@@ -20,7 +34,6 @@ type Client struct {
 }
 
 // NewClient создаёт новый HTTP-клиент.
-// caFile — путь к CA-сертификату (пустая строка = системный пул).
 func NewClient(baseURL string, caFile string) (*Client, error) {
 	tlsConfig, err := buildTLSConfig(caFile)
 	if err != nil {
@@ -38,7 +51,6 @@ func NewClient(baseURL string, caFile string) (*Client, error) {
 	}, nil
 }
 
-// buildTLSConfig создаёт TLS-конфигурацию.
 func buildTLSConfig(caFile string) (*tls.Config, error) {
 	if caFile == "" {
 		return &tls.Config{
@@ -73,7 +85,6 @@ func (c *Client) Ping() error {
 	return err
 }
 
-// doRequest выполняет HTTP-запрос с авторизацией.
 func (c *Client) doRequest(method, path string, body interface{}) ([]byte, error) {
 	var reqBody io.Reader
 

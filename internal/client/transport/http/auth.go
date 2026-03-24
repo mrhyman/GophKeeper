@@ -5,12 +5,6 @@ import (
 	"fmt"
 )
 
-// TokenPair — пара токенов от сервера.
-type TokenPair struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
-}
-
 // Register отправляет запрос на регистрацию.
 func (c *Client) Register(login, password string) (*TokenPair, error) {
 	body := map[string]string{

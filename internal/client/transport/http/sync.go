@@ -8,12 +8,6 @@ import (
 	"gophkeeper/pkg/models"
 )
 
-// SyncResponse — ответ сервера на запрос синхронизации.
-type SyncResponse struct {
-	ServerSecrets []*models.Secret `json:"server_secrets"`
-	SyncTimestamp int64            `json:"sync_timestamp"`
-}
-
 // Sync отправляет запрос на синхронизацию.
 func (c *Client) Sync(lastSync int64, clientSecrets []*models.Secret) (*SyncResponse, error) {
 	body := map[string]interface{}{

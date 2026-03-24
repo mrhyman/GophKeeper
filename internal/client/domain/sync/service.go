@@ -12,7 +12,7 @@ import (
 type Service struct {
 	secretRepo repository.SecretRepository
 	authRepo   repository.AuthRepository
-	httpClient *httpTransport.Client
+	httpClient httpTransport.HTTPClient
 }
 
 // SyncResult содержит статистику синхронизации.
@@ -25,7 +25,7 @@ type SyncResult struct {
 func NewService(
 	secretRepo repository.SecretRepository,
 	authRepo repository.AuthRepository,
-	httpClient *httpTransport.Client,
+	httpClient httpTransport.HTTPClient,
 ) *Service {
 	return &Service{
 		secretRepo: secretRepo,

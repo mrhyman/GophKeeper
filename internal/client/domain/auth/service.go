@@ -14,10 +14,10 @@ var (
 
 type Service struct {
 	authRepo   repository.AuthRepository
-	httpClient *http.Client
+	httpClient http.HTTPClient
 }
 
-func NewService(authRepo repository.AuthRepository, httpClient *http.Client) *Service {
+func NewService(authRepo repository.AuthRepository, httpClient http.HTTPClient) *Service {
 	return &Service{
 		authRepo:   authRepo,
 		httpClient: httpClient,
