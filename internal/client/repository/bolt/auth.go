@@ -52,7 +52,7 @@ func (r *AuthRepository) GetTokens() (string, string, error) {
 		a := b.Get(keyAccessToken)
 		rf := b.Get(keyRefreshToken)
 
-		if a == nil || rf == nil {
+		if len(a) == 0 || len(rf) == 0 {
 			return ErrNoTokens
 		}
 

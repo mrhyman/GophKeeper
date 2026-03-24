@@ -8,7 +8,7 @@ import (
 )
 
 type DB struct {
-	Pool *pgxpool.Pool
+	Pool Pool
 }
 
 func New(ctx context.Context, dsn string) (*DB, error) {
