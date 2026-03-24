@@ -161,7 +161,7 @@ func (m LoginModel) View() string {
 	// Поля ввода
 	for i, input := range m.inputs {
 		label := m.fieldLabel(i)
-		b.WriteString(fmt.Sprintf("%s\n", label))
+		fmt.Fprintf(&b, "%s\n", label)
 		b.WriteString(input.View())
 		b.WriteString("\n\n")
 	}

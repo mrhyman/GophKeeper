@@ -61,12 +61,12 @@ func TestClient_CreateSecret(t *testing.T) {
 
 				body, _ := io.ReadAll(r.Body)
 				var req map[string]interface{}
-				json.Unmarshal(body, &req)
+				_ = json.Unmarshal(body, &req)
 
 				assert.Equal(t, tt.secretName, req["name"])
 
 				w.WriteHeader(tt.statusCode)
-				json.NewEncoder(w).Encode(tt.response)
+				_ = json.NewEncoder(w).Encode(tt.response)
 			}))
 			defer server.Close()
 
@@ -122,7 +122,7 @@ func TestClient_GetSecret(t *testing.T) {
 				assert.Equal(t, "/api/v1/secrets/"+tt.secretID, r.URL.Path)
 
 				w.WriteHeader(tt.statusCode)
-				json.NewEncoder(w).Encode(tt.response)
+				_ = json.NewEncoder(w).Encode(tt.response)
 			}))
 			defer server.Close()
 
@@ -186,7 +186,7 @@ func TestClient_ListSecrets(t *testing.T) {
 				assert.Equal(t, "/api/v1/secrets", r.URL.Path)
 
 				w.WriteHeader(tt.statusCode)
-				json.NewEncoder(w).Encode(tt.response)
+				_ = json.NewEncoder(w).Encode(tt.response)
 			}))
 			defer server.Close()
 
@@ -210,12 +210,12 @@ func TestClient_UpdateSecret(t *testing.T) {
 
 		body, _ := io.ReadAll(r.Body)
 		var req map[string]interface{}
-		json.Unmarshal(body, &req)
+		_ = json.Unmarshal(body, &req)
 
 		assert.Equal(t, "updated-name", req["name"])
 
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(SecretResponse{
+		_ = json.NewEncoder(w).Encode(SecretResponse{
 			ID:      "secret-123",
 			Name:    "updated-name",
 			Version: 2,

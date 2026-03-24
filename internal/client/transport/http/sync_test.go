@@ -69,12 +69,12 @@ func TestClient_Sync(t *testing.T) {
 
 				body, _ := io.ReadAll(r.Body)
 				var req map[string]interface{}
-				json.Unmarshal(body, &req)
+				_ = json.Unmarshal(body, &req)
 
 				assert.Equal(t, float64(tt.lastSync), req["last_sync"])
 
 				w.WriteHeader(tt.statusCode)
-				json.NewEncoder(w).Encode(tt.response)
+				_ = json.NewEncoder(w).Encode(tt.response)
 			}))
 			defer server.Close()
 
@@ -96,7 +96,7 @@ func TestClient_Sync(t *testing.T) {
 func TestClient_Sync_InvalidResponse(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("invalid json"))
+		_, _ = w.Write([]byte("invalid json"))
 	}))
 	defer server.Close()
 

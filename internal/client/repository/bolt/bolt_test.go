@@ -19,7 +19,7 @@ func setupTestDB(t *testing.T) *DB {
 	require.NoError(t, err)
 
 	t.Cleanup(func() {
-		db.Close()
+		_ = db.Close()
 	})
 
 	return db
@@ -31,7 +31,9 @@ func TestNew_Success(t *testing.T) {
 
 	db, err := New(dbPath)
 	require.NoError(t, err)
-	defer db.Close()
+	defer func() {
+		_ = db.Close()
+	}()
 
 	// Проверяем, что файл создан
 	_, err = os.Stat(dbPath)

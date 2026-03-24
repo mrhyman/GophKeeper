@@ -45,7 +45,9 @@ certs-clean:
 # ============================================
 .PHONY: test
 test:
-	go test -race -cover -coverprofile=coverage.out ./...
+	go test -race -cover -coverprofile=coverage.out \
+		$(shell go list ./... | grep -v /mocks | grep -v /docs | grep -v /cmd | grep -v /tui)
+	go tool cover -func=coverage.out | grep total
 
 .PHONY: coverage
 coverage: test

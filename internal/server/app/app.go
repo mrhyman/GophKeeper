@@ -22,7 +22,9 @@ import (
 func Run(cfg *config.Config) error {
 	// Logger
 	logger, _ := zap.NewProduction()
-	defer logger.Sync()
+	defer func() {
+		_ = logger.Sync()
+	}()
 
 	// Repository
 	db, err := postgres.New(context.Background(), cfg.Database.DSN)

@@ -100,7 +100,6 @@ type SyncStatusModel struct {
 
 	// Состояние
 	phase      SyncPhase
-	startTime  time.Time
 	uploaded   int
 	downloaded int
 	duration   time.Duration
@@ -211,11 +210,10 @@ func (m SyncStatusModel) View() string {
 	default:
 		// В процессе — спиннер
 		b.WriteString("\n")
-		b.WriteString(fmt.Sprintf("  %s %s",
+		fmt.Fprintf(&b, "  %s %s\n",
 			m.spinner.View(),
 			syncProgressStyle.Render(m.phaseText()),
-		))
-		b.WriteString("\n")
+		)
 	}
 
 	// Кнопки (только когда завершено)

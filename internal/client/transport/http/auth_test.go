@@ -70,9 +70,9 @@ func TestClient_Register(t *testing.T) {
 
 				w.WriteHeader(tt.statusCode)
 				if str, ok := tt.response.(string); ok {
-					w.Write([]byte(str))
+					_, _ = w.Write([]byte(str))
 				} else {
-					json.NewEncoder(w).Encode(tt.response)
+					_ = json.NewEncoder(w).Encode(tt.response)
 				}
 			}))
 			defer server.Close()
@@ -133,7 +133,7 @@ func TestClient_Login(t *testing.T) {
 				assert.Equal(t, "/api/v1/login", r.URL.Path)
 
 				w.WriteHeader(tt.statusCode)
-				json.NewEncoder(w).Encode(tt.response)
+				_ = json.NewEncoder(w).Encode(tt.response)
 			}))
 			defer server.Close()
 
@@ -189,11 +189,11 @@ func TestClient_Refresh(t *testing.T) {
 
 				body, _ := io.ReadAll(r.Body)
 				var req map[string]string
-				json.Unmarshal(body, &req)
+				_ = json.Unmarshal(body, &req)
 				assert.Equal(t, tt.refreshToken, req["refresh_token"])
 
 				w.WriteHeader(tt.statusCode)
-				json.NewEncoder(w).Encode(tt.response)
+				_ = json.NewEncoder(w).Encode(tt.response)
 			}))
 			defer server.Close()
 

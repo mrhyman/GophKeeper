@@ -91,7 +91,7 @@ func TestClient_Ping(t *testing.T) {
 				assert.Equal(t, "/api/v1/secrets", r.URL.Path)
 
 				w.WriteHeader(tt.statusCode)
-				w.Write([]byte(tt.response))
+				_, _ = w.Write([]byte(tt.response))
 			}))
 			defer server.Close()
 
@@ -114,7 +114,7 @@ func TestClient_DoRequest_WithAuth(t *testing.T) {
 		assert.Equal(t, "application/json", r.Header.Get("Content-Type"))
 
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"secrets":[]}`))
+		_, _ = w.Write([]byte(`{"secrets":[]}`))
 	}))
 	defer server.Close()
 

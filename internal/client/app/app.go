@@ -29,7 +29,9 @@ func Run(cfg *config.Config) error {
 	if err != nil {
 		return fmt.Errorf("open storage: %w", err)
 	}
-	defer db.Close()
+	defer func() {
+		_ = db.Close()
+	}()
 
 	authRepo := bolt.NewAuthRepository(db)
 	secretRepo := bolt.NewSecretRepository(db)

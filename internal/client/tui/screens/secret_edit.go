@@ -248,12 +248,6 @@ func (m *SecretEditModel) calculateTotalItems() {
 
 // --- Индексация элементов ---
 
-const (
-	editButtonAddMeta = -3
-	editButtonSave    = -2
-	editButtonCancel  = -1
-)
-
 func (m SecretEditModel) fieldCount() int {
 	return 1 + len(m.fields) // name + typed
 }
@@ -417,10 +411,10 @@ func (m SecretEditModel) View() string {
 			valLabel = editLabelBlurredStyle.Render(valLabel)
 		}
 
-		b.WriteString(fmt.Sprintf("%s %s  %s %s\n",
+		fmt.Fprintf(&b, "%s %s  %s %s\n",
 			keyLabel, mf.keyInput.View(),
 			valLabel, mf.valueInput.View(),
-		))
+		)
 	}
 
 	// Кнопки

@@ -31,7 +31,7 @@ func New(path string) (*DB, error) {
 		return nil
 	})
 	if err != nil {
-		db.Close()
+		_ = db.Close()
 		return nil, err
 	}
 
