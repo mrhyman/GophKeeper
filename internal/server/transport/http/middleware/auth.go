@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	authDomain "gophkeeper/internal/server/domain/auth"
+	"gophkeeper/internal/server/transport/http/types"
 )
 
 type contextKey string
@@ -13,7 +13,7 @@ type contextKey string
 const UserIDKey contextKey = "user_id"
 
 // Auth проверяет JWT-токен и кладёт userID в контекст.
-func Auth(authService *authDomain.Service) func(next http.Handler) http.Handler {
+func Auth(authService types.AuthService) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			header := r.Header.Get("Authorization")

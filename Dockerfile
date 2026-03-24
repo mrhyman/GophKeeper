@@ -1,4 +1,4 @@
-FROM docker-hosted.artifactory.tcsbank.ru/cicd-images/golang-1.26:latest AS builder
+FROM golang:1.26.1 AS builder
 
 WORKDIR /src
 
@@ -17,13 +17,13 @@ RUN CGO_ENABLED=0 GOOS=linux go build \
     -o /bin/server ./cmd/server
 
 
-FROM docker-hosted.artifactory.tcsbank.ru/cicd-images/golang-1.26:latest AS migrator
+FROM golang:1.26.1 AS migrator
 
 ENV GOBIN=/usr/local/bin
 RUN go install github.com/pressly/goose/v3/cmd/goose@latest
 
 
-FROM docker-hosted.artifactory.tcsbank.ru/cicd-images/base-jammy:latest AS final
+FROM ubuntu:22.04 AS final
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \

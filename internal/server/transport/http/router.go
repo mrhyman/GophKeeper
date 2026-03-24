@@ -6,18 +6,16 @@ import (
 	"go.uber.org/zap"
 
 	"gophkeeper/internal/server/config"
-	authDomain "gophkeeper/internal/server/domain/auth"
-	secretsDomain "gophkeeper/internal/server/domain/secrets"
-	syncDomain "gophkeeper/internal/server/domain/sync"
 	"gophkeeper/internal/server/transport/http/handlers"
 	"gophkeeper/internal/server/transport/http/middleware"
+	"gophkeeper/internal/server/transport/http/types"
 )
 
 // NewRouter создаёт и конфигурирует chi-роутер.
 func NewRouter(
-	authService *authDomain.Service,
-	secretsService *secretsDomain.Service,
-	syncService *syncDomain.Service,
+	authService types.AuthService,
+	secretsService types.SecretsService,
+	syncService types.SyncService,
 	jwtCfg config.JWTConfig,
 	logger *zap.Logger,
 ) chi.Router {

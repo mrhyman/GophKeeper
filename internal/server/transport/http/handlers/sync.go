@@ -8,16 +8,17 @@ import (
 	"gophkeeper/internal/server/transport/http/dto"
 	"gophkeeper/internal/server/transport/http/middleware"
 	"gophkeeper/internal/server/transport/http/response"
+	"gophkeeper/internal/server/transport/http/types"
 	"gophkeeper/pkg/models"
 )
 
 // SyncHandler обрабатывает запросы синхронизации.
 type SyncHandler struct {
-	syncService *syncDomain.Service
+	syncService types.SyncService
 }
 
 // NewSyncHandler создаёт новый SyncHandler.
-func NewSyncHandler(syncService *syncDomain.Service) *SyncHandler {
+func NewSyncHandler(syncService types.SyncService) *SyncHandler {
 	return &SyncHandler{syncService: syncService}
 }
 

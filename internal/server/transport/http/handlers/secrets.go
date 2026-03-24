@@ -11,16 +11,17 @@ import (
 	"gophkeeper/internal/server/transport/http/dto"
 	"gophkeeper/internal/server/transport/http/middleware"
 	"gophkeeper/internal/server/transport/http/response"
+	"gophkeeper/internal/server/transport/http/types"
 	"gophkeeper/pkg/models"
 )
 
 // SecretsHandler обрабатывает запросы к секретам.
 type SecretsHandler struct {
-	secretsService *secretsDomain.Service
+	secretsService types.SecretsService
 }
 
 // NewSecretsHandler создаёт новый SecretsHandler.
-func NewSecretsHandler(secretsService *secretsDomain.Service) *SecretsHandler {
+func NewSecretsHandler(secretsService types.SecretsService) *SecretsHandler {
 	return &SecretsHandler{secretsService: secretsService}
 }
 

@@ -63,11 +63,28 @@ lint:
 	golangci-lint run ./...
 
 # ============================================
-# Swagger
+# Документация
 # ============================================
+
+# Godoc - документация кода
+.PHONY: docs
+docs:
+	@echo "Starting godoc server at http://localhost:6060/pkg/gophkeeper"
+	godoc -http=:6060
+
+.PHONY: docs-install
+docs-install:
+	go install golang.org/x/tools/cmd/godoc@latest
+
+# Swagger - API документация
 .PHONY: swagger
 swagger:
 	swag init -g ./cmd/server/main.go -o ./docs
+
+.PHONY: swagger-serve
+swagger-serve:
+	swag init -g ./cmd/server/main.go -o ./docs
+	@echo "Swagger UI available at http://localhost:8080/swagger/"
 
 # ============================================
 # Миграции

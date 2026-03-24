@@ -8,15 +8,16 @@ import (
 	authDomain "gophkeeper/internal/server/domain/auth"
 	"gophkeeper/internal/server/transport/http/dto"
 	"gophkeeper/internal/server/transport/http/response"
+	"gophkeeper/internal/server/transport/http/types"
 )
 
 // AuthHandler обрабатывает запросы аутентификации.
 type AuthHandler struct {
-	authService *authDomain.Service
+	authService types.AuthService
 }
 
 // NewAuthHandler создаёт новый AuthHandler.
-func NewAuthHandler(authService *authDomain.Service) *AuthHandler {
+func NewAuthHandler(authService types.AuthService) *AuthHandler {
 	return &AuthHandler{authService: authService}
 }
 
